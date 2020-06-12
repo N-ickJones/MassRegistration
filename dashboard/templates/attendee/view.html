@@ -1,0 +1,29 @@
+{% extends 'attendee/base.html' %}
+{% block sub_content %}
+    <h3>Your Upcoming Mass Times</h3>
+
+    {% if perms.registration.add_attendee %}
+        <a class='btn btn-primary my-2' href="{% url 'dashboard:add_attendee' %}">Register</a>
+    {% endif %}
+
+    {% if perms.registration.view_attendee %}
+        <ul>
+            {% for object in data %}
+                <li>
+                    {{ object }}
+                    {% if perms.registration.change_attendee %}
+                        <a class="ml-2" href="{% url 'dashboard:change_attendee' attendee_id=object.id %}">Update</a>
+                    {% endif %}
+                    {% if perms.registration.delete_attendee %}
+                        <a class="ml-2 text-danger"
+                           href="{% url 'dashboard:delete_attendee' attendee_id=object.id %}"
+                           onclick="return confirm('Are you sure? Deleting this will remove your attendance ' +
+                            'from the mass event.');"
+                        >Delete</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endblock sub_content %}

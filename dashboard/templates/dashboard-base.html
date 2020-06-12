@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}
+    Dashboard
+{% endblock title %}
+
+
+
+{% block navbar %}
+
+    {% comment %}<li class=""><a href="{% url 'dashboard:home' %}" class="d-block d-md-none p-2 nav-link text-light {% if "/dashboard/" == request.path %}active{% endif %}">Dashboard</a></li>{% endcomment %}
+    <li class="border-top mt-3"><a href="{% url 'dashboard:view_attendee' %}" class="d-block d-md-none p-2 nav-link text-light {% if "/attendee/" in request.path %}active{% endif %}">Mass Attendance</a></li>
+    <li><a href="{% url 'dashboard:view_mass' %}" class="d-block d-md-none p-2 nav-link text-light {% if "/mass/" in request.path %}active{% endif %}">Upcoming Masses</a></li>
+    <li><a href="{% url 'dashboard:view_parish' %}" class="d-block d-md-none p-2 nav-link text-light {% if "/parish/" in request.path %}active{% endif %}">Parish Registration</a></li>
+    {% if perms.registration.change_parish %}
+        <li><a href="{% url 'dashboard:view_phone' %}" class="d-block d-md-none p-2 nav-link text-light {% if "/phone/" in request.path %}active{% endif %}">Phone Services</a></li>
+    {% endif %}
+    <li class="border-bottom mb-3"><a href="{% url 'dashboard:view_profile' %}" class="d-block d-md-none p-2 nav-link text-light {% if "/profile/" in request.path %}active{% endif %}">Edit Profile</a></li>
+
+{% endblock navbar %}
+
+{% block content %}
+{% load static %}
+    <div class="container">
+        <div class="row">
+            <div class="d-none d-md-block col-12 col-md-4">
+                <div class="list-group">
+                    <a href="{% url 'dashboard:home' %}" class="list-group-item list-group-item-action {% if "/dashboard/" == request.path %}active{% endif %}">Dashboard</a>
+                    <a href="{% url 'dashboard:view_attendee' %}" class="list-group-item list-group-item-action {% if "/attendee/" in request.path %}active{% endif %}">Mass Attendance</a>
+                    <a href="{% url 'dashboard:view_mass' %}" class="list-group-item list-group-item-action {% if "/mass/" in request.path %}active{% endif %}">Upcoming Masses</a>
+                    <a href="{% url 'dashboard:view_parish' %}" class="list-group-item list-group-item-action {% if "/parish/" in request.path %}active{% endif %}">Parish Registration</a>
+                    {% if perms.registration.change_parish %}
+                        {% comment %} 'Disabled for release' <a href="{% url 'dashboard:view_phone' %}" class="list-group-item list-group-item-action {% if "/phone/" in request.path %}active{% endif %}">Phone Services</a>{% endcomment %}
+                    {% endif %}
+                    <a href="{% url 'dashboard:view_profile' %}" class="list-group-item list-group-item-action {% if "/profile/" in request.path %}active{% endif %}">Edit Profile</a>
+                </div>
+            </div>
+
+            <div class="">
+
+
+
+            </div>
+
+            <div class="col col-md-8 mt-3 mt-md-0">
+                {% include 'message.html' %}
+                {% block dashboard_content %}
+                {% endblock dashboard_content %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

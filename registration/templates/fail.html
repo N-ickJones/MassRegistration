@@ -1,0 +1,7 @@
+{% extends 'registration/base.html' %}
+{% block content %}
+<div id='fail_page' class="container">
+    <h2>We are sorry, we could not fulfill your request</h2>
+    It seems that someone signed up at the same time as you and there were not enough seats, the current amount of seats left is {{ seats_available }}
+</div>
+{% endblock content %}

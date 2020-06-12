@@ -1,0 +1,13 @@
+{% extends 'parish/base.html' %}
+{% load crispy_forms_tags %}
+{% block sub_content %}
+    <h3>Parish Subscription</h3>
+    <p>Click the checkbox and submit to become a Parish Owner</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="d-flex">
+            <button type='submit' class='btn btn-primary w-50 mx-auto'>Subscribe</button>
+        </div>
+    </form>
+{% endblock sub_content %}

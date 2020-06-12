@@ -1,0 +1,13 @@
+{% extends 'dashboard-base.html' %}
+{% block title %}Mass{% endblock title %}
+{% block dashboard_content %}
+{% load static %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                {% block sub_content %}
+                {% endblock sub_content %}
+            </div>
+        </div>
+    </div>
+{% endblock dashboard_content %}

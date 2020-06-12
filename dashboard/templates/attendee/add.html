@@ -1,0 +1,189 @@
+{% extends 'attendee/base.html' %}
+{% load crispy_forms_tags %}
+{% block sub_content %}
+<div class="container">
+    <h1>Register for Mass</h1>
+    <p>You are signed in as {{ user.first_name }} {{ user.last_name }}. Not you? <a href="{% url 'logout' %}">Log out</a></p>
+    Parish: {{ user.parishioner.parish }}
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class='row'>
+        <div class='col'>
+            <form id='mass_register' method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="alert alert-secondary" id="sign_up_time_restriction">
+                You may register {{  user.parishioner.parish.pre_register }} day{{ user.parishioner.parish.pre_register|pluralize:",s" }} ahead of time, up until {{  user.parishioner.parish.close_register }} day{{ user.parishioner.parish.close_register|pluralize:",s" }} before the mass time.
+                </div>
+                <p>Additional Attendees</p>
+                <div id="attendee_cells" class="text-muted">
+                    <a id="add-another" href="#" class='mb-3 d-block'>+ Add</a>
+                    <div>
+                        <div id="add-another-too-much" class="alert alert-danger" style="display: none">
+                            You have too many additional attendees, please remove some
+                        </div>
+                    <div id="add-another-message-cant-add" class="alert alert-danger" style="display: none">
+                        Cannot add fields because that would exceed the attendee limit
+                    </div>
+                    <div id="add-another-message-no-select"  class="alert alert-danger" style="display: none">
+                        Please select an option for mass before adding additional attendees
+                    </div>
+                    </div>
+                </div>
+                <label><input type='checkbox' required /> I agree to my parish's rules and regulations, that masks are required and social distancing rules must be followed</label>
+                <button id="submit" type='submit' name="action" value="submit" class='btn btn-primary'>Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock sub_content %}
+{% block scripts %}
+    <script>
+    $(document).ready(function(){
+        $('select option:contains("-----")').prop('selected',true);
+    });
+
+    let form_count = Number($("[name=attendee_field_count]").val());
+    let deleted_fields_len = 0;
+    let limit;
+    let start;
+    let pre_register;
+    let close_register;
+
+    limit = 0;
+    $("#add-another-too-much").hide();
+    $("#add-another-message-cant-add").hide();
+    $("#add-another-message-no-select").hide();
+    // get extra form count so we know what index to use for the next item.
+
+    // adds another field for additional attendees
+    // if it is too large than the limit than it through an error message when you try to add
+    // if it is the same as the limit it throws a different message
+    // if it is less it adds
+    $("#add-another").click(function(e) {
+            e.preventDefault();
+            if (limit === 0){
+                $("#add-another-message-no-select").show();
+                setTimeout(function(){ $("#add-another-message-no-select").hide();}, 5000);
+            } else if (limit - 1 > form_count - deleted_fields_len) {
+                $("#add-another-too-much").hide();
+                $("#add-another-message-cant-add").hide();
+                let element = $('<div id="id_attendee_field_' + form_count + '" class="form-group d-flex">' +
+                    '<div class="d-flex">'+
+                    '<input id="attendee_field_' + form_count + '" name="attendee_field_' + form_count + '"type="text" class="textinput textInput form-control" required/>' +
+                    '<a id="' + form_count + '" class="remove" href="#">' +
+                    '<svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">\n' +
+                    '  <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/>\n' +
+                    '  <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/>\n' +
+                    '</svg></a></div></div>');
+                element.attr('name', 'attendee_field_' + form_count);
+                element.attr('id', 'id_attendee_field_' + form_count);
+                $("#attendee_cells").before(element);
+                element.find('input').focus();
+                // build element and append it to our forms container
+                form_count++;
+                $("[name=attendee_field_count]").val(form_count);
+                // increment form count so our view knows to populate
+            }else if(limit - 1 < form_count - deleted_fields_len){
+                $("#add-another-message-cant-add").hide();
+                $("#add-another-too-much").show();
+                $('#submit').prop('disabled', true);
+        }else{
+                $("#add-another-too-much").hide();
+                $("#add-another-message-cant-add").show();
+                setTimeout(function(){ $("#add-another-message-cant-add").hide();}, 5000);
+            }});
+
+
+    // get the options from the selector\
+    let mass_selector_options;
+    mass_selector_options = $("#id_mass").children();
+    var i;
+
+    // loop through the options and see if any of them have a string of 0 seats, if so
+    // we disable that option
+    for(i=0;i < mass_selector_options.length; i++) {
+        let option_limit;
+        let option_start;
+        let option_pre_register;
+        let option_close_register;
+        let can_register;
+
+        option_limit = Number(mass_selector_options[i].getAttribute('limit'));
+        option_start = mass_selector_options[i].getAttribute("start");
+        option_pre_register = mass_selector_options[i].getAttribute("pre_register");
+        option_close_register = mass_selector_options[i].getAttribute("close_register");
+        if (option_start) {
+            let formatted_date_str;
+            let unformatted_python_date = option_start.split(" ");
+            formatted_date_str = unformatted_python_date[0];
+            formatted_date_str = formatted_date_str + "T";
+            formatted_date_str = formatted_date_str + unformatted_python_date[1];
+            formatted_date_str = formatted_date_str + "Z";
+
+            let event_date;
+            // I am assuming the times are UTC
+            event_date = new Date(formatted_date_str);
+
+            const pre_register_date = new Date(Number(event_date));
+            pre_register_date.setDate(event_date.getDate() - option_pre_register);
+
+            const close_register_date = new Date(Number(event_date));
+            close_register_date.setDate(event_date.getDate() - option_close_register);
+
+            let now;
+            now = new Date();
+            if(pre_register_date < now  && now < close_register_date) {
+                can_register = true;
+            } else {
+                can_register = false;
+            }
+            if (!option_limit || !can_register) {
+                mass_selector_options[i].setAttribute('disabled', true);
+            }
+
+        }
+    }
+
+    //set limit of an event globally from selected option
+    $("#id_mass").change(function() {
+        limit = $("#id_mass").children("option:selected")[0].getAttribute("limit");
+        if (limit) {
+            if (limit - 1 < form_count - deleted_fields_len) {
+                $("#add-another-too-much").show();
+                $('#submit').prop('disabled', true);
+            }
+            // setting the text of id sign_up_time_restriction
+
+            start = $("#id_mass").children("option:selected")[0].getAttribute("start");
+            pre_register = $("#id_mass").children("option:selected")[0].getAttribute("pre_register");
+            close_register = $("#id_mass").children("option:selected")[0].getAttribute("close_register");
+            $("#sign_up_time_restriction").hide();
+            $("#sign_up_time_restriction").text("You may register " + String(pre_register) + " day(s) ahead of time, up until " + String(close_register) +" day(s) before the mass time.")
+            $("#sign_up_time_restriction").show();
+        }
+    });
+
+      // Watch for delete
+    $('#mass_register').on('click', '.remove', function(e) {
+        e.preventDefault;
+        let id = this.id;
+        document.getElementById("mass_register").removeChild(document.getElementById("id_attendee_field_"+id));
+        let deleted_fields = document.getElementById("id_deleted_fields").value;
+        deleted_fields = deleted_fields + "," + id;
+        document.getElementById("id_deleted_fields").value = deleted_fields;
+    });
+    </script>
+{% endblock scripts %}

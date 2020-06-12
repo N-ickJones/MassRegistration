@@ -1,0 +1,25 @@
+// Bootstrap Themes
+$theme-colors: (
+  "primary": #1583C6,   // default: #007bff [Color Copied from : https://www.olgparish.org/identity]
+  "secondary": #6c757d, // default: #6c757d
+  "success": #28a745,   // default: #28a745
+  "info": #17a2b8,      // default: #17a2b8
+  "warning": #ffc107,   // default: #ffc107
+  "danger": #dc3545,    // default: #dc3545
+  "light": #f8f9fa ,    // default: #f8f9fa
+  "dark": #343a40       // default: #343a40
+);
+
+// Custom CSS or SCSS
+@import "custom";
+
+// Import Bootstrap (4)
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+// Import Font Awesome (6)
+$fa-font-path:  "../node_modules/@fortawesome/fontawesome-free/webfonts";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/solid";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/brands";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/regular";
+

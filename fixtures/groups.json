@@ -1,0 +1,26 @@
+[
+  {"model": "auth.permission", "pk": 33, "fields": {"name": "Can add parish", "content_type": 9, "codename": "add_parish"}},
+  {"model": "auth.permission", "pk": 34, "fields": {"name": "Can change parish", "content_type": 9, "codename": "change_parish"}},
+  {"model": "auth.permission", "pk": 35, "fields": {"name": "Can delete parish", "content_type": 9, "codename": "delete_parish"}},
+  {"model": "auth.permission", "pk": 36, "fields": {"name": "Can view parish", "content_type": 9, "codename": "view_parish"}},
+  {"model": "auth.permission", "pk": 37, "fields": {"name": "Can add parishioner", "content_type": 10, "codename": "add_parishioner"}},
+  {"model": "auth.permission", "pk": 38, "fields": {"name": "Can change parishioner", "content_type": 10, "codename": "change_parishioner"}},
+  {"model": "auth.permission", "pk": 39, "fields": {"name": "Can delete parishioner", "content_type": 10, "codename": "delete_parishioner"}},
+  {"model": "auth.permission", "pk": 40, "fields": {"name": "Can view parishioner", "content_type": 10, "codename": "view_parishioner"}},
+  {"model": "auth.permission", "pk": 41, "fields": {"name": "Can add attendee", "content_type": 11, "codename": "add_attendee"}},
+  {"model": "auth.permission", "pk": 42, "fields": {"name": "Can change attendee", "content_type": 11, "codename": "change_attendee"}},
+  {"model": "auth.permission", "pk": 43, "fields": {"name": "Can delete attendee", "content_type": 11, "codename": "delete_attendee"}},
+  {"model": "auth.permission", "pk": 44, "fields": {"name": "Can view attendee", "content_type": 11, "codename": "view_attendee"}},
+  {"model": "auth.permission", "pk": 45, "fields": {"name": "Can add Mass", "content_type": 12, "codename": "add_mass"}},
+  {"model": "auth.permission", "pk": 46, "fields": {"name": "Can change Mass", "content_type": 12, "codename": "change_mass"}},
+  {"model": "auth.permission", "pk": 47, "fields": {"name": "Can delete Mass", "content_type": 12, "codename": "delete_mass"}},
+  {"model": "auth.permission", "pk": 48, "fields": {"name": "Can view Mass", "content_type": 12, "codename": "view_mass"}},
+  {"model": "auth.permission", "pk": 49, "fields": {"name": "Can add additional attendee", "content_type": 13, "codename": "add_additionalattendee"}},
+  {"model": "auth.permission", "pk": 50, "fields": {"name": "Can change additional attendee", "content_type": 13, "codename": "change_additionalattendee"}},
+  {"model": "auth.permission", "pk": 51, "fields": {"name": "Can delete additional attendee", "content_type": 13, "codename": "delete_additionalattendee"}},
+  {"model": "auth.permission", "pk": 52, "fields": {"name": "Can view additional attendee", "content_type": 13, "codename": "view_additionalattendee"}},
+
+  {"model": "auth.group", "pk": 1, "fields": {"name": "Parishioner", "permissions": [41, 42, 43, 44, 48, 36]}},
+  {"model": "auth.group", "pk": 2, "fields": {"name": "Parish Owner", "permissions": [41, 42, 43, 44, 45, 46, 47, 48, 33, 34, 35, 36]}}
+
+]

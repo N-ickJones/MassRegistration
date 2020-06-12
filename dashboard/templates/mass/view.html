@@ -1,0 +1,31 @@
+{% extends 'mass/base.html' %}
+{% block sub_content %}
+    <h3>List of Mass Events</h3>
+
+    {% if perms.registration.add_mass %}
+        <a href="{% url 'dashboard:add_mass' %}">Create Mass Event</a>
+    {% endif %}
+
+    {% if perms.registration.view_mass %}
+        <ul>
+            {% for object in data %}
+                <li>
+                    {{ object }}
+                    {% if perms.registration.change_mass %}
+                        <a class="ml-2" href="{% url 'dashboard:change_mass' mass_id=object.id %}">Update</a>
+                    {% endif %}
+                    {% if perms.registration.delete_mass %}
+                        <a class="ml-2 text-danger"
+                           href="{% url 'dashboard:delete_mass' mass_id=object.id %}"
+                           onclick="return confirm('Are you sure? Deleting this will cause the mass event ' +
+                            'and all registered attendees to be removed.');"
+                        >Delete</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You do not have permission to read mass events.</p>
+    {% endif %}
+
+{% endblock sub_content %}

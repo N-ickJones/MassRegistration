@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-6 mx-auto">
+                {% include 'message.html' %}
+                <h3 class="text-center">Delete Account Confirmation</h3>
+                <br>
+                <p class="text-center">Please re-enter your account credentials to delete your account.</p>
+                 <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="d-flex">
+                        <button type='submit' class='btn btn-danger mx-auto w-50'>Delete My Account</button>
+                    </div>
+                 </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <body>
+    <div id="content">
+    <p>Hello {{ request_user_first_name }},</p>
+    <p>We have received your registration for {{ attendee_mass }}. We look forward to welcoming you back! We will have a sign in sheet with your information on it.</p>
+
+        <p>{{ request_user_first_name }} {{ request_user_last_name }}</p>
+        <p>{{ additional_attendees }}</p>
+
+    <p>Thank you,</p>
+        <p>{{ attendee_parishioner_parish }}</p>
+    </div>
+    </body>
+</head>
+<body>
+
+</body>
+</html>

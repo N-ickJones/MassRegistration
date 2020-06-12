@@ -1,0 +1,12 @@
+{% extends 'attendee/base.html' %}
+{% load crispy_forms_tags %}
+{% block sub_content %}
+    <h3>Update Attendee</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="d-flex">
+            <button type='submit' class='btn btn-primary w-50 mx-auto'>Update</button>
+        </div>
+    </form>
+{% endblock sub_content %}

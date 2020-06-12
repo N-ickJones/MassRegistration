@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row border">
+            <div class="col-12 col-md-6 shadow">
+                <div class="m-5">
+                    <div class="row justify-content-center p-3">
+                        <i class="fas fa-cross pr-1 fa-4x"></i>
+                    </div>
+
+                    <div class="row justify-content-center p-3">
+                        <h3>Parishioner</h3>
+                    </div>
+
+                    <div class="row justify-content-center p-3">
+                        <p class="text-center">Create an account to register for upcoming mass events at your local parish.</p>
+                    </div>
+
+                    <div class="row justify-content-center p-3">
+                        <a class="btn btn-primary" href="{% url 'registration:signup_parishioner' %}">Create a Parishioner Account</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 shadow">
+                <div class="m-5">
+                    <div class="row justify-content-center p-3">
+                        <i class="fas fa-church pr-1 fa-4x"></i>
+                    </div>
+
+                    <div class="row justify-content-center p-3">
+                        <h3>Parish</h3>
+                    </div>
+
+                    <div class="row justify-content-center p-3">
+                        <p class="text-center">Create an account to register your parish and allow members to register to mass.</p>
+                    </div>
+
+                    <div class="row justify-content-center p-3">
+                        <a class="btn btn-primary" href="{% url 'registration:signup_parish' %}">Create a Parish Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

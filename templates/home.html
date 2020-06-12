@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}
+Register for Mass
+{% endblock title %}
+{% block content %}
+{% load static %}
+<div class="container">
+    <div class='row justify-content-center'>
+        <div class="col-12 mx-auto">
+            {% include 'message.html' %}
+        </div>
+        <div class='col-lg-6'>
+            <h1><i class="fas fa-church pr-1 mr-2" style="font-size: 40px"></i>Register for Mass</h1>
+            <p class='lead'>Reopen religious services safely within
+            phased guidelines, with attendance caps
+            and contact tracing for notifications.</p>
+            <p>An online reservations system for Catholic parishes
+            to comply with phased reopening guidelines of
+            <strong>Washington State</strong> and the <strong>Archdiocese of Seattle</strong>.</p>
+            <h2>Benefits</h2>
+            <ul>
+                <li>Easy online reservation for mass with secure contact tracing</li>
+                <li>Option to register on behalf of parishioners who prefer to phone in</li>
+                <li>Automatic email confirmation of each successful registration</li>
+                <li>Set registration window for each service with automatic close</li>
+                <li>Print attendee lists for ushers to use at each service</li>
+                <li>Notification feature in case of potential exposure incident</li>
+                <li>Technical support included from Seattle-based team</li>
+            </ul>
+        </div>
+        <div class='col-lg-6'>
+            <figure class="figure">
+                <img class='img-fluid' src="{% static 'phases-june.png' %}" alt="Map of county phases for re-opening" />
+                <figcaption class="text-center figure-caption">Updated June 1, 2020</figcaption>
+            </figure>
+        </div>
+    </div>
+    <div class='row my-4 justify-content-center'>
+        <div class="card col-md-6 col-lg-4 mx-2">
+            <div class="card-body">
+                <h5 class="card-title"> <i class="fas fa-church pr-1" style="font-size: 20px"></i> Register for Mass</h5>
+                <p class="card-text">Help your Parish take count of who will be attending Mass.</p>
+                <div class='text-center'>
+                    <a href="{% url 'registration:signup' %}" class="btn btn-primary mb-2">Sign Up</a>
+                    <a href="{% url 'login' %}" class="btn btn-secondary px-3 mb-2">&nbsp;Login&nbsp;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='row justify-content-center'>
+        <div class='col'>
+            <img class='signup-screenshots align-center p-1 mx-auto d-block my-2 img-fluid' src="{% static 'signup-screenshots.png' %}" alt="Screenshot of initial sign up and mass registration forms" />
+        </div>
+    </div>
+    <div class='row mt-5 justify-content-lg-center'>
+        <div class='col col-lg-6'>
+            <h3>Purchase</h3>
+            <ul>
+                <li>Register your parish and open reservations system today</li>
+                <li>One-time setup fee includes first month for only $250</li>
+                <li>Pay monthly without contract per number of parishioners:<br/>
+                <strong>50</strong> for <span class='text-primary mr-2'>$5</span>
+                <strong>500</strong> for <span class='text-primary mr-2'>$25</span>
+                <strong>1,000</strong> for <span class='text-primary mr-2'>$45</span>
+                <strong>2,000+</strong> for <span class='text-primary mr-2'>$95</span></li>
+                <li>Full refund if not completely satisfied within first month</li>
+            </ul>
+            <a href="{% url 'registration:signup_parish' %}" class="ml-4 btn btn-primary">Register Parish</a>
+        </div>
+        <div class='d-flex col-md-6 mt-5 mt-md-0 flex-column justify-content-center'>
+            <h3>Questions?</h3>
+            <p>Contact <strong>Cory</strong> at <a href='mailto:sales@webkey.us'>sales@webkey.us</a> or <a href="tel:8009302851,8">(800) 930-2851x8</a></p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

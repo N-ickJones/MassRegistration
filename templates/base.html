@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'scss/bootstrap.min.css' %}">
+
+    {% comment %} START Django Admin Widgets {% endcomment %}
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+    <script type="text/javascript" src="{% static '/admin/js/core.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/admin/css/widgets.css' %}">
+    <style>.calendar>table>caption{caption-side:unset}</style><!--caption fix for bootstrap4-->
+    {{ form.media }}        {# Form required JS and CSS #}
+    {% comment %} END Django Admin Widgets {% endcomment %}
+
+  {% comment %} <link rel="shortcut icon" type="image/png" href="#" /> {% endcomment %}
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-md bg-primary navbar-dark border-bottom mb-3">
+
+            <a href="{% url 'home' %}" class="navbar-brand text-white pl-0 pl-md-3">
+                <i class="text-light fas fa-church pr-1" style="font-size: 25px"></i>
+                Register for Mass
+            </a>
+
+
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav ml-auto mr-md-3">
+
+                    {% block navbar %}
+                    {% endblock navbar %}
+
+                    {% if user.is_authenticated %}
+                        <li><a class="p-2 nav-link text-light" href="{% url 'dashboard:home' %}">Dashboard</a></li>
+                        <li><a class="p-2 nav-link text-light" href="{% url 'logout' %}">Log Out</a></li>
+                    {% else %}
+                        <li><a class="p-2 mr-3 nav-link text-light" href="{% url 'login' %}">Log In</a></li>
+                    {% endif %}
+                    {% if user.is_authenticated == False %}
+                        <a class="d-block d-md-none p-2 nav-link text-light" href="{% url 'registration:signup' %}">Sign up</a>
+                        <a class="d-none d-md-block btn btn-light" href="{% url 'registration:signup' %}">Sign up</a>
+                    {% endif %}
+
+                </ul>
+            </div>
+
+
+
+    </nav>
+
+
+
+
+
+
+    {% block content %}
+    {% endblock %}
+    <footer>
+    <div class='text-center py-2 text-muted'>A <a href='https://www.webkey.us/'>Webkey</a> project</div>
+    </footer>
+
+    <script src={% static 'node_modules/jquery/dist/jquery.slim.min.js' %}></script>
+    <script src={% static 'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js' %}></script>
+    <script src={% static 'js/app.js' %}></script>
+
+    {% block scripts %}
+    {% endblock scripts %}
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+{% extends 'dashboard-base.html' %}
+{% block dashboard_content %}
+<div id='success_page' class="container">
+    <h1>Success</h1>
+    <p>You, {{ attendee.parishioner.user.first_name }}, are registered {{ additional_attendees }} for {{ attendee.mass }} </p>
+    <p>{{ email_fail_message }} </p>
+</div>
+{% endblock dashboard_content %}

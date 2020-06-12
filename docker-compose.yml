@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+
+  # Sass is dev-only
+  sass:
+    build: "static/scss/."
+    command: sass --watch bootstrap.scss:bootstrap.min.css --style compressed
+    volumes:
+      - ".:/app:rw"
+
+  db:
+    image: postgres:9.6-alpine
+    environment:
+      POSTGRES_DB: "db"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    volumes:
+      - ".:/app:rw"
+    ports:
+      # Opened Port 5432 for Development Only - Allows IDE to connect
+      - "5432:5432"
+
+  web:
+    build: "."
+    env_file: .env-local
+    volumes:
+      - ".:/app:rw"
+      - "./data:/data:rw"
+    command: python manage.py runserver 0.0.0.0:80
+    depends_on:
+      - "db"
+      - "sass"
+    links:
+      - "db:postgres"
+      - "sass"
+    ports:
+      - "8000:80"
+

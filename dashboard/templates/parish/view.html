@@ -1,0 +1,39 @@
+{% extends 'parish/base.html' %}
+{% block sub_content %}
+    <h3>Parish</h3>
+
+    {% if perms.registration.add_parish  %}
+        <a href="{% url 'dashboard:add_parish' %}">Create</a>
+    {% else %}
+        <a href="{% url 'dashboard:subscribe_parish' %}"
+           onclick="return confirm('Are you sure? Adding ownership and creating a Parish will remove your ' +
+            'current Parish and all your registered attendance.')"
+        >Own a parish? Subscribe today.</a>
+    {% endif %}
+
+    {% if perms.registration.view_parish %}
+        <h3 class="mt-3">Your Parish</h3>
+        <ul>
+            {% for object in data %}
+                <li>
+                    {{ object }}
+                    {% if perms.registration.change_parish %}
+                        <a class="ml-2" href="{% url 'dashboard:change_parish' parish_id=object.id %}">Update</a>
+                    {% endif %}
+                    {% if perms.registration.delete_parish %}
+                        <a class="ml-2 text-danger"
+                            href="{% url 'dashboard:delete_parish' parish_id=object.id %}"
+                            onclick="return confirm('Are you sure? Deleting this will cause all parishioners of ' +
+                             'your parish to lose their ability to see mass events and register.');"
+                        >Delete</a>
+
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+
+    {% endif %}
+
+{% endblock sub_content %}
+
+

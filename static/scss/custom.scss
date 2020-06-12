@@ -1,0 +1,35 @@
+
+// Custom Mass-Registration App CSS
+
+.jumbotron {
+  background-color: #EBF4FA;
+}
+
+.jumbotron-heading {
+  font-weight: 300;
+}
+
+.jumbotron .container {
+  max-width: 51rem;
+}
+
+/* Sign up */
+.errorlist.nonfield {
+  display: none;
+}
+footer {
+  font-size: .9rem;
+  margin-top: 7em;
+}
+footer a {
+  color: #353535;
+}
+
+svg.bi-x:hover {
+    color: #007bff;
+}
+
+.signup-screenshots {
+    border: 10px solid #ccc;
+    max-width: 75%;
+}

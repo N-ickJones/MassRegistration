@@ -1,0 +1,42 @@
+{% extends 'dashboard-base.html' %}
+{% block dashboard_content %}
+
+    {% if perms.registration.view_attendee %}
+        <h4>Your Upcoming Mass Attendance</h4>
+        {% if attendance %}
+            <ul>
+                {% for event in attendance %}
+                    <li>{{ event.mass }}
+                        <a class="ml-3" href="{% url 'dashboard:change_attendee' attendee_id=event.id %}">Edit</a>
+                        {% if event.additional %}
+                            <p class="pl-2">Additional Attendees Count:  &nbsp;&nbsp;<b>{{ event.additional }}</b><br>
+                                Additional Attendees Names: <b>{{ event.additional_names }}</b>
+                            </p>
+
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="ml-3">You are not registered to attend any upcoming mass events.</p>
+        {% endif %}
+    {% else %}
+        <p>You do not have permission to view your attendance.</p>
+    {% endif %}
+
+    {% if perms.registration.view_mass %}
+        {% if mass %}
+        <h4>Parish Mass Schedule</h4>
+        <ul>
+            {% for event in mass %}
+                <li>{{ event.name }} {{ event.start }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <p>There are no upcoming events for your parish.</p>
+        {% endif %}
+    {% else %}
+        <p>You do not have permission to view mass events.</p>
+    {% endif %}
+
+{% endblock dashboard_content %}
